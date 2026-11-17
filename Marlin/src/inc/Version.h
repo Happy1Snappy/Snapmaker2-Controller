@@ -38,7 +38,7 @@
   /**
    * Marlin release version identifier
    */
-  #define SHORT_BUILD_VERSION "SM2-5.2.1"
+  #define SHORT_BUILD_VERSION "SM2-5.2.1-LA01"
 
   /**
    * Verbose version identifier which should contain a reference to the location
@@ -81,7 +81,7 @@
    * has a distinct Github fork— the Source Code URL should just be the main
    * Marlin repository.
    */
-  #define SOURCE_CODE_URL "https://github.com/whimsycwd/SnapmakerMarlin"
+  #define SOURCE_CODE_URL "https://github.com/Happy1Snappy/Snapmaker2-Controller"
 
   /**
    * Default generic printer UUID.

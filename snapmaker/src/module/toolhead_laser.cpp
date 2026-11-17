@@ -286,6 +286,7 @@ ErrCode ToolHeadLaser::Init(MAC_t &mac, uint8_t mac_index) {
     Tim1PwmInit(93, 254);       // 5kHz
   }
 
+  air_pump_switch_ = false;  // Never inherit an earlier pump request on initialization.
   mac_index_ = mac_index;
   state_     = TOOLHEAD_LASER_STATE_OFF;
 

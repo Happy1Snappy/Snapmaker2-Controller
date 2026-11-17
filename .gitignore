@@ -174,3 +174,8 @@ cmake-build-*
 
 #SourceInsight
 Edit/
+
+# Generated firmware packages and Python cache
+/release/
+__pycache__/
+*.pyc

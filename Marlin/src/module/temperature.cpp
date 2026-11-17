@@ -2684,7 +2684,7 @@ void Temperature::isr() {
     } // 3D printer
     else {
       //WRITE_HEATER_0(0);
-      if(MODULE_TOOLHEAD_LASER_20W == ModuleBase::toolhead() || MODULE_TOOLHEAD_LASER_40W == ModuleBase::toolhead()) {
+      if(ToolHeadLaser::SupportsAirAssist()) {
         if (laser->GetAirPumpSwitch())
           WRITE_HEATER_BED(HIGH);
         else

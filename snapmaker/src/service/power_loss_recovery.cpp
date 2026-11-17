@@ -602,6 +602,11 @@ void PowerLossRecovery::ResumeLaser() {
 	cur_data_.laser_percent = pre_data_.laser_percent;
 	cur_data_.laser_info = pre_data_.laser_info;
 
+	// Legacy laser heads have Air Assist but no crosslight CAN functions.
+	if (ModuleBase::toolhead() == MODULE_TOOLHEAD_LASER ||
+		ModuleBase::toolhead() == MODULE_TOOLHEAD_LASER_10W)
+		laser->SetAirPumpSwitch(pre_data_.air_pump_switch);
+
 	// just change laser power but not enable output
 	laser->SetPower(pre_data_.laser_percent, cur_data_.laser_info.status.power_is_map);
 

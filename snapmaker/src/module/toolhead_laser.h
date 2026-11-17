@@ -158,6 +158,16 @@ class ToolHeadLaser: public ModuleBase {
     void TryCloseFan();
     bool IsOnline(uint8_t sub_index = 0) { return mac_index_ != MODULE_MAC_INDEX_INVALID; }
 
+    // The original Air Assist uses the controller heated-bed output.
+    // Keep this allowlist shared by G-code and the output ISR.
+    static bool SupportsAirAssist() {
+      const auto head = ModuleBase::toolhead();
+      return head == MODULE_TOOLHEAD_LASER
+          || head == MODULE_TOOLHEAD_LASER_10W
+          || head == MODULE_TOOLHEAD_LASER_20W
+          || head == MODULE_TOOLHEAD_LASER_40W;
+    }
+
     bool SetAirPumpSwitch(bool onoff, bool output_log=true);
     bool GetAirPumpSwitch(void) { return air_pump_switch_; }
     bool GetHalfPowerMode(void) { return half_power_mode_; }

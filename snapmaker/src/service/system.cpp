@@ -332,6 +332,10 @@ void inline SystemService::resume_cnc(void) {
 }
 
 void inline SystemService::resume_laser(void) {
+  if (ModuleBase::toolhead() == MODULE_TOOLHEAD_LASER ||
+      ModuleBase::toolhead() == MODULE_TOOLHEAD_LASER_10W)
+    laser->SetAirPumpSwitch(pl_recovery.cur_data_.air_pump_switch);
+
   // planner.laser_inline.status.isEnabled = pl_recovery.cur_data_.laser_inline_enable;
   // planner.laser_inline.status.trapezoid_power = pl_recovery.cur_data_.trapezoid_power;
   // planner.laser_inline.status = pl_recovery.cur_data_.laser_info.status;

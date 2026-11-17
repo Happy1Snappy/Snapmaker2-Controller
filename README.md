@@ -1,3 +1,18 @@
+# Personal A350 Laser Firmware — experimental
+
+Unofficial personal fork for Happy1Snappy's original A350 (five 8 mm lead-screw
+linear modules, original PSU, Quick Swap and enclosure with door detection).
+No machine tests have been completed. This is not a Snapmaker release.
+
+**The heated-bed connector is used for the original Air Assist pump. With a
+1.6 W or 10 W head, M7/M8 now energizes this connector. Do not connect a heated
+bed there during laser operation.**
+
+[Custom changes, Windows build instructions and validation](docs/custom/README.de.md).
+License: GPL-3.0, as upstream. No support for other configurations is promised.
+
+---
+
 # Snapmaker 2.0 Controller Firmware
 
 Snapmaker2-Controller is the firmware for Snapmaker 2.0 3-in-1 3D Printers. It's based on the popular [Marlin firmware](http://marlinfw.org/) with optimized FreeRTOS support.

@@ -30,14 +30,14 @@
 #if (MOTHERBOARD == BOARD_SNAPMAKER_2_0)
 
 void GcodeSuite::M7_M8(const bool is_M8) {
-  if(MODULE_TOOLHEAD_LASER_20W == ModuleBase::toolhead() || MODULE_TOOLHEAD_LASER_40W == ModuleBase::toolhead()) {
+  if(ToolHeadLaser::SupportsAirAssist()) {
     planner.synchronize();   // Wait for move to arrive
     laser->SetAirPumpSwitch(true);
   }
 }
 
 void GcodeSuite::M9(void) {
-  if(MODULE_TOOLHEAD_LASER_20W == ModuleBase::toolhead() || MODULE_TOOLHEAD_LASER_40W == ModuleBase::toolhead()) {
+  if(ToolHeadLaser::SupportsAirAssist()) {
     planner.synchronize();   // Wait for move to arrive
     laser->SetAirPumpSwitch(false);
   }
