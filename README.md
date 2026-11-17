@@ -2,7 +2,12 @@
 
 Unofficial personal fork for Happy1Snappy's original A350 (five 8 mm lead-screw
 linear modules, original PSU, Quick Swap and enclosure with door detection).
-No machine tests have been completed. This is not a Snapmaker release.
+Initial machine tests have been reported by the owner. This is not a Snapmaker release.
+
+**Use native Marlin device profiles in LightBurn, rather than SnapMaker profiles.**
+With inline mode enabled, the owner reports that the profile's framing/focus-dot
+power must be increased for visible output. No universal power value has been
+established. The 2 W IR head has not yet been tested.
 
 **The heated-bed connector is used for the original Air Assist pump. With a
 1.6 W or 10 W head, M7/M8 now energizes this connector. Do not connect a heated

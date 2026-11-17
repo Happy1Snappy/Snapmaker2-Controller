@@ -5,13 +5,44 @@
 - Basis: offizieller Tag `v5.2.1`, Commit
   `314c167b0a1ce331d867b10abd32e00908e4aa9c`.
 - Experimentelle Controller-Version: `SM2-5.2.1-LA01`.
-- Die installierte Paketversion `Snapmaker_V2.4.0_20251231` ist keine
-  Versionsnummer dieses Controller-Quellstands. Eine identische Zuordnung
-  der beiden Versionen wurde nicht nachgewiesen.
+- Touchscreen, Controller und Module haben eigene Firmwareversionen.
+  Die Touchscreen-Version 2.4 ist nicht die Controller-Version 5.2.1.
 - Ziel: ursprünglicher A350 mit fünf 8-mm-Spindeln, Originalnetzteil,
   Quick Swap, Gehäuse und Türerkennung; LightBurn direkt über USB.
-- Kein Hardwaretest durchgeführt. Windows-Build noch nicht geprüft.
+- Windows-Build, Paketierung und erste Maschinentests vom Besitzer bestätigt.
 - Inoffizieller persönlicher Fork; keine allgemeine Kompatibilitätszusage.
+
+## LightBurn: native Marlin-Profile verwenden
+
+Diese Custom-Version wird mit **nativen Marlin-Geräteprofilen** direkt über
+USB betrieben. SnapMaker-Geräteprofile werden für diesen Arbeitsstand nicht
+verwendet. Der Besitzer berichtet funktionierendes Streaming und Framing mit
+Marlin-Profilen sowie grundsätzlich funktionierende weitere Bedienung.
+
+**Im Inline-Modus muss die Leistung für Framing und Fokuspunkt im
+LightBurn-Profil höher eingestellt werden, damit die Ausgabe sichtbar wird.**
+Ein allgemeingültiger Prozentwert wurde nicht ermittelt; die Einstellung
+bleibt abhängig vom Laserkopf und Profil. Nur so weit erhöhen, wie für die
+Sichtbarkeit erforderlich. Framing-Leistung und Kreuzlaser-Versatz bleiben
+auf Profilebene, nicht als feste Werte im Firmwarecode.
+
+Der **2-W-IR-Kopf ist noch nicht getestet**. Insbesondere sein Kreuzlaser-
+Framing ist damit noch nicht bestätigt. Die allgemeine Rückmeldung ersetzt
+keine getrennte Abnahme aller Funktionen an jedem Kopf.
+
+Die SnapMaker-Profile starteten auch nach dem unten beschriebenen Wechsel
+der Touchscreen-Firmware keinen Stream. Die Ursache ist nicht abschließend
+geklärt; ein LightBurn-Problem ist eine Vermutung des Besitzers. Die weitere
+Untersuchung dieser Profile ist vorerst eingestellt.
+
+## Gemeldeter Testaufbau
+
+Der Besitzer installierte zunächst das vollständige offizielle V1.21-Paket
+(Touchscreen und Controller; danach Controller V4.7.x) und anschließend das
+Controller-Paket `5.2.1-LA01`. Für diesen Aufbau wurden die aktuellen Ergebnisse
+gemeldet. Die genaue verbleibende Touchscreen- und die einzelnen Modulversionen
+wurden noch nicht protokolliert. Diese Abfolge ist eine Beschreibung des
+Testaufbaus, keine erforderliche Installations- oder Downgrade-Anleitung.
 
 ## Änderungen LA01
 
@@ -64,7 +95,7 @@ des Controller-Dateinamens dürfen nicht Teil der Versionsnummer werden.
    pio run -e GD32F105 -t pack
    ```
 
-Geprüfte Build-Werkzeuge (Linux; Windows-Prüfung ausstehend):
+Geprüfte Build-Werkzeuge hier unter Linux (Windows-Build vom Besitzer bestätigt):
 PlatformIO Core 6.2.0, ststm32 20.0.0, GCC-ARM-Paket 1.70201.0,
 Maple-Framework 3.10000.201129. Plattform, Compiler und Framework sind
 in `platformio.ini` für `GD32F105` festgeschrieben.
@@ -85,13 +116,12 @@ Ein Firmwarepaket enthält hier nur den Controller; Touchscreen und Werkzeugköp
 werden damit nicht auf eine zu diesem Quellstand passende Version gebracht.
 Kompatibilität mit den installierten Modulversionen ist noch zu prüfen.
 
-Noch keine Installationsempfehlung: Erst Build und Paket prüfen, dann mit
-kontrolliertem Aufbau testen. Eine Rückkehr erfolgt grundsätzlich über ein
-passendes offizielles Updatepaket; ob die installierte Beta einen Downgrade
-akzeptiert, ist vorab zu klären. Ein Repository zu löschen setzt keine Maschine
+Build und Paket wurden geprüft; erste Hardwaretests sind erfolgt. Für andere
+Konfigurationen ist die Kompatibilität nicht nachgewiesen. Eine Rückkehr
+benötigt ein zur jeweiligen Maschine passendes offizielles Updatepaket. Ein Repository zu löschen setzt keine Maschine
 zurück und entfernt keine bereits angefertigten Kopien.
 
-## Hardware-Abnahme (noch offen)
+## Weitere Hardware-Abnahme
 
 - Nach Einschalten Pumpe und Bearbeitungslaser aus.
 - Mit 10 W und 1,6 W: jeweils `M7`, `M9`, `M8`, `M9` über die USB-Konsole
@@ -107,5 +137,7 @@ zurück und entfernt keine bereits angefertigten Kopien.
 - Später: Framing 1,6/10 W mit reduzierter Leistung, Kreuzlaser 40 W/IR,
   Inline-Leistung, Leerfahrten und Abbruch mit LightBurn-Profilen testen.
 
-LightBurn 2.2.x ist das Ziel. Alte Profile/1.4.5 bleiben Vergleichsmaterial.
-Noch keine Aussage, dass LA01 den bisherigen Profilwechsel ersetzt.
+Aktueller Arbeitsweg: LightBurn mit nativen Marlin-Profilen. Kein Wechsel
+zu SnapMaker-Profilen vorgesehen. Die genaue getestete LightBurn-Version
+und die endgültigen Profilwerte sollten zusammen mit den Kopf-Tests
+protokolliert werden.
