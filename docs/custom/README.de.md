@@ -26,9 +26,12 @@ bleibt abhängig vom Laserkopf und Profil. Nur so weit erhöhen, wie für die
 Sichtbarkeit erforderlich. Framing-Leistung und Kreuzlaser-Versatz bleiben
 auf Profilebene, nicht als feste Werte im Firmwarecode.
 
-Der **2-W-IR-Kopf ist noch nicht getestet**. Insbesondere sein Kreuzlaser-
-Framing ist damit noch nicht bestätigt. Die allgemeine Rückmeldung ersetzt
-keine getrennte Abnahme aller Funktionen an jedem Kopf.
+Der Besitzer hat auch den **ersten Test des 2-W-IR-Kopfs mit einem nativen
+Marlin-Profil abgeschlossen**. Weitere intensive Tests folgen. Einzelne
+Funktionen wie Kreuzlaser-Framing, Pause und Abbruch wurden in dieser
+Rückmeldung nicht separat beschrieben und gelten deshalb noch nicht als
+einzeln dokumentiert abgenommen. Die allgemeine Rückmeldung ersetzt keine
+getrennte Abnahme aller Funktionen an jedem Kopf.
 
 Die SnapMaker-Profile starteten auch nach dem unten beschriebenen Wechsel
 der Touchscreen-Firmware keinen Stream. Die Ursache ist nicht abschließend

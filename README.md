@@ -7,7 +7,9 @@ Initial machine tests have been reported by the owner. This is not a Snapmaker r
 **Use native Marlin device profiles in LightBurn, rather than SnapMaker profiles.**
 With inline mode enabled, the owner reports that the profile's framing/focus-dot
 power must be increased for visible output. No universal power value has been
-established. The 2 W IR head has not yet been tested.
+established. The owner has also completed an initial 2 W IR test using a
+native Marlin profile. Extended testing is ongoing; individual functions
+have not all been separately documented.
 
 **The heated-bed connector is used for the original Air Assist pump. With a
 1.6 W or 10 W head, M7/M8 now energizes this connector. Do not connect a heated
