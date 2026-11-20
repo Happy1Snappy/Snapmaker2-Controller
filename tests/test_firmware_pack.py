@@ -16,7 +16,7 @@ spec.loader.exec_module(pack)
 
 class FirmwarePackageTest(unittest.TestCase):
     def test_controller_package_versions_and_payload(self):
-        for version in ('V5.2.1', 'V5.2.1-LA01'):
+        for version in ('V5.2.1', 'V5.2.1-LA01', 'V5.2.1-LA03'):
             with self.subTest(version=version), tempfile.TemporaryDirectory() as tmp:
                 root = Path(tmp)
                 payload = bytes(range(256)) * 3

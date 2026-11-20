@@ -891,6 +891,7 @@ static void blank_laser_before_kill() {
   DISABLE_STEPPER_DRIVER_INTERRUPT();
   laser->BlankOutput_ISR();
   laser->InlineDisable();
+  laser->SetAirPumpSwitch(false, false);
 }
 
 void kill(PGM_P const lcd_msg/*=NULL*/) {

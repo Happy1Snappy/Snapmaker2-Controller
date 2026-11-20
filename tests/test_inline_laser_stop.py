@@ -27,6 +27,7 @@ def function(path, signature):
 class InlineLaserStopTest(unittest.TestCase):
     def test_output_release_resume_focus_and_quickstop(self):
         production = '\n'.join([
+            function('snapmaker/src/module/toolhead_laser.cpp', 'bool ToolHeadLaser::SetAirPumpSwitch('),
             function('snapmaker/src/module/toolhead_laser.cpp', 'void ToolHeadLaser::BlankOutput_ISR()'),
             function('snapmaker/src/module/toolhead_laser.cpp', 'void ToolHeadLaser::TurnOn_ISR('),
             function('Marlin/src/module/stepper.cpp', 'void Stepper::finish_inline_laser_block('),
@@ -37,6 +38,7 @@ class InlineLaserStopTest(unittest.TestCase):
 #include <cassert>
 #include <cstdint>
 #define ENABLED(x) 0
+#define LOG_I(...) ((void)0)
 #define TERN_(...) 
 constexpr int BLOCK_DELAY_FOR_1ST_MOVE = 100;
 enum State { TOOLHEAD_LASER_STATE_OFFLINE, TOOLHEAD_LASER_STATE_OFF, TOOLHEAD_LASER_STATE_ON };
@@ -48,6 +50,10 @@ struct ToolHeadLaser {
   uint16_t power_pwm_ = 137, power_limit_pwm_ = 255;
   float power_val_ = 53.0f;
   bool inline_enabled = true;
+  volatile bool air_pump_switch_ = false, air_pump_suspended_ = false;
+  bool SetAirPumpSwitch(bool, bool = true);
+  GET_PUMP_OUTPUT
+  GET_PUMP_REQUEST
   void BlankOutput_ISR();
   void TurnOn_ISR(uint16_t, bool, float);
   void InlineDisable() { inline_enabled = false; }
@@ -83,6 +89,10 @@ void reenable() {
 }
 #define ENABLE_STEPPER_DRIVER_INTERRUPT() reenable()
 '''
+        setup = setup.replace('GET_PUMP_OUTPUT', function(
+            'snapmaker/src/module/toolhead_laser.h', 'bool GetAirPumpOutput(void)'))
+        setup = setup.replace('GET_PUMP_REQUEST', function(
+            'snapmaker/src/module/toolhead_laser.h', 'bool GetAirPumpSwitch(void)'))
         scenarios = r'''
 int main() {
   // The production blanking path is common to every head, including 2 W IR.
@@ -134,6 +144,36 @@ int main() {
     p.quick_stop();
     assert(!irq_enabled && reenables == old_reenables);
   }
+  // Layer request survives a drained-stream pause, physical output does not.
+  head = ToolHeadLaser();
+  head.SetAirPumpSwitch(true);
+  assert(head.GetAirPumpOutput()); // Manual M7/M8 still works immediately.
+  head.TurnOn_ISR(100, true, 40.0f);
+  Stepper::current_block = nullptr;
+  Stepper::finish_inline_laser_block(true);
+  assert(head.GetAirPumpSwitch() && !head.GetAirPumpOutput());
+  head.BlankOutput_ISR();
+  assert(head.GetAirPumpSwitch() && !head.GetAirPumpOutput());
+  head.TurnOn_ISR(0, true, 0.0f); // Resume with a zero-power raster segment.
+  assert(head.GetAirPumpOutput());
+
+  // M9 while paused must prevent pump restart on resume.
+  head.BlankOutput_ISR();
+  head.SetAirPumpSwitch(false);
+  head.TurnOn_ISR(100, true, 40.0f);
+  assert(!head.GetAirPumpSwitch() && !head.GetAirPumpOutput());
+
+  // Explicit M7 overrides suspension; explicit quick-stop cancels the request.
+  head.BlankOutput_ISR();
+  head.SetAirPumpSwitch(true);
+  assert(head.GetAirPumpOutput());
+  Planner stopped;
+  irq_enabled = true;
+  stopped.quick_stop();
+  assert(!head.GetAirPumpSwitch() && !head.GetAirPumpOutput());
+  head.TurnOn_ISR(100, true, 40.0f);
+  assert(!head.GetAirPumpOutput());
+
   // M112/kill must blank before interrupt shutdown / diagnostic delays.
   head.state_ = TOOLHEAD_LASER_STATE_ON;
   physical_pwm = 200;

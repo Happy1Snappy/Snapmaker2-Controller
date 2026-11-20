@@ -2,9 +2,11 @@
 
 **Known safety defect in LA01:** during native-Marlin inline streaming, the
 laser can remain on after Pause/Stop when motion ends. Do not use LA01 for
-laser jobs. Experimental LA02 on `laser-inline-stop` addresses the retained output; see
+laser jobs. Experimental LA03 on `laser-inline-stop` includes the LA02 output correction; see
 [analysis, verification and limits](docs/custom/INLINE-STOP-LA02.md). It is not
-yet hardware-validated.
+yet fully hardware-validated. The owner reports the LA02 laser-off correction
+working. LA03 additionally suspends/resumes Air Assist; see
+[behavior and test plan](docs/custom/AIR-ASSIST-LA03.md).
 
 Unofficial personal fork for Happy1Snappy's original A350 (five 8 mm lead-screw
 linear modules, original PSU, Quick Swap and enclosure with door detection).

@@ -3,14 +3,16 @@
 **Sicherheitsfehler LA01:** Bei nativer Marlin-Inline-Steuerung kann nach
 Pause/Stop die letzte Laserleistung am stehenden Kopf erhalten bleiben.
 Gemeldet mit 10 W und LightBurn 2.2.1. LA01 nicht für Laserjobs verwenden.
-Experimenteller Korrekturstand: [LA02, Prüfung und Grenzen](INLINE-STOP-LA02.md)
-auf Branch `laser-inline-stop`. Noch keine Hardware-Abnahme.
+Experimenteller Korrekturstand auf `laser-inline-stop`: LA03 mit
+[LA02-Laserabschaltung](INLINE-STOP-LA02.md) und
+[Pumpenpause/Wiederanlauf](AIR-ASSIST-LA03.md). LA02-Laserabschaltung vom
+Besitzer als funktionierend gemeldet; LA03-Pumpenänderung noch nicht am Gerät geprüft.
 
 ## Basis und Status
 
 - Basis: offizieller Tag `v5.2.1`, Commit
   `314c167b0a1ce331d867b10abd32e00908e4aa9c`.
-- Experimentelle Controller-Version auf diesem Branch: `SM2-5.2.1-LA02`.
+- Experimentelle Controller-Version auf diesem Branch: `SM2-5.2.1-LA03`.
 - Touchscreen, Controller und Module haben eigene Firmwareversionen.
   Die Touchscreen-Version 2.4 ist nicht die Controller-Version 5.2.1.
 - Ziel: ursprünglicher A350 mit fünf 8-mm-Spindeln, Originalnetzteil,

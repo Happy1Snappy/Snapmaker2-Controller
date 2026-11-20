@@ -1,7 +1,10 @@
 # LA02: Inline-Ausgang nach Bewegungsende und Abbruch
 
 **Experimenteller Korrekturstand, noch nicht am Gerät abgenommen.**
-Branch: `laser-inline-stop`; Controller-Version: `SM2-5.2.1-LA02`.
+Dieser Bericht beschreibt den historischen LA02-Stand. Der Besitzer hat die
+Laserabschaltung inzwischen als funktionierend zurückgemeldet. Auf Branch
+`laser-inline-stop` liegt jetzt [LA03 mit Pumpenpause](AIR-ASSIST-LA03.md).
+LA02-Controller-Version: `SM2-5.2.1-LA02`.
 LA01 enthält den unten beschriebenen Sicherheitsfehler und soll nicht weiter
 für Laserjobs verwendet werden. Ein erfolgreicher Build ist keine Freigabe
 für Laserbetrieb.

@@ -1529,6 +1529,7 @@ void Planner::quick_stop() {
   // ISR. Otherwise it could emit the old block's inline power again.
   laser->BlankOutput_ISR();
   laser->InlineDisable();
+  laser->SetAirPumpSwitch(false, false); // Explicit stop cancels the request.
   stepper.quick_stop();
 
   // Reenable Stepper ISR

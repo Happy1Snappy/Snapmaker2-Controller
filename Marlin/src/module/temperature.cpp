@@ -2685,7 +2685,7 @@ void Temperature::isr() {
     else {
       //WRITE_HEATER_0(0);
       if(ToolHeadLaser::SupportsAirAssist()) {
-        if (laser->GetAirPumpSwitch())
+        if (laser->GetAirPumpOutput())
           WRITE_HEATER_BED(HIGH);
         else
           WRITE_HEATER_BED(LOW);
