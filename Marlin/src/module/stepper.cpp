@@ -1337,6 +1337,8 @@ void Stepper::isr() {
   // execute to endstop.update(), then we cannot check power loss there.
   // But if power loss happened and ISR cannot get block, no need to check again
   if (quickstop.CheckInISR(current_block) || emergency_stop.IsTriggered()) {
+    laser->BlankOutput_ISR();
+    laser_trap.enabled = false;
     if (ftMotion.cfg.mode) {
       if (current_block)
         abort_current_block = true;
@@ -1520,6 +1522,8 @@ void Stepper::stepper_pulse_phase_isr() {
 
   // If we must abort the current block, do so!
   if (abort_current_block || !Running) {
+    laser->BlankOutput_ISR();
+    laser_trap.enabled = false;
     abort_current_block = false;
     if (current_block) {
       axis_did_move = 0;
@@ -1662,10 +1666,23 @@ void Stepper::stepper_pulse_phase_isr() {
 // properly schedules blocks from the planner. This is executed after creating
 // the step pulses, so it is not time critical, as pulses are already done.
 
+void Stepper::finish_inline_laser_block(const bool completed_inline) {
+  // Only release output owned by a movement that just ended. A periodic idle
+  // shutdown would also erase a deliberately stationary focus / fire command.
+  if (completed_inline && (!current_block || !current_block->laser.status.isEnabled))
+    laser->BlankOutput_ISR();
+}
+
 uint32_t Stepper::stepper_block_phase_isr() {
 
   // If no queued movements, just wait 1ms for the next move
   uint32_t interval = (STEPPER_TIMER_RATE / 1000);
+  bool completed_inline = false;
+
+  if (!Running) {
+    laser->BlankOutput_ISR();
+    return interval;
+  }
 
   // If there is a current block
   if (current_block) {
@@ -1680,6 +1697,7 @@ uint32_t Stepper::stepper_block_phase_isr() {
       pl_recovery.SaveCmdLine(current_block->filePos);
       // pl_recovery.SaveLaserInlineState(current_block->laser.status.isEnabled, current_block->laser.status.trapezoid_power);
       pl_recovery.SaveLaserPowerInfo(current_block->laser);
+      completed_inline = current_block->laser.status.isEnabled;
       current_block = NULL;
       planner.discard_current_block();
     }
@@ -1854,8 +1872,10 @@ uint32_t Stepper::stepper_block_phase_isr() {
         planner.discard_current_block();
 
         // Try to get a new block
-        if (!(current_block = planner.get_current_block()))
+        if (!(current_block = planner.get_current_block())) {
+          finish_inline_laser_block(completed_inline);
           return interval; // No more queued movements!
+        }
       }
 
       // Flag all moving axes for proper endstop handling
@@ -2071,6 +2091,8 @@ uint32_t Stepper::stepper_block_phase_isr() {
       interval = calc_timer_interval(current_block->initial_rate, oversampling_factor, &steps_per_isr);
     }
   }
+
+  finish_inline_laser_block(completed_inline);
 
   // Return the interval to wait
   return interval;

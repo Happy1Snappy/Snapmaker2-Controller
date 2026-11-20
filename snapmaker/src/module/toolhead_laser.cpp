@@ -1773,6 +1773,13 @@ void ToolHeadLaser::UpdateInlinePower(uint16_t power_pwm, float sync_power) {
   planner.laser_inline.sync_power = sync_power;
 }
 
+void ToolHeadLaser::BlankOutput_ISR() {
+  if (state_ == TOOLHEAD_LASER_STATE_OFFLINE)
+    return;
+  TimSetPwm(0);
+  state_ = TOOLHEAD_LASER_STATE_OFF;
+}
+
 void ToolHeadLaser::TurnOn_ISR(uint16_t power_pwm, bool is_sync_power, float power) {
   if (power_pwm > power_limit_pwm_)
     power_pwm = power_limit_pwm_;

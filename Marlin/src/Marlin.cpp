@@ -33,6 +33,7 @@
 #include "module/motion.h"
 #include "module/planner.h"
 #include "module/stepper.h"
+#include "../../snapmaker/src/module/toolhead_laser.h"
 #include "module/endstops.h"
 #include "module/probe.h"
 #include "module/temperature.h"
@@ -884,7 +885,16 @@ void idle(
  * Kill all activity and lock the machine.
  * After this the machine will need to be reset.
  */
+static void blank_laser_before_kill() {
+  // A kill can stop interrupts while TIM1 keeps producing its last PWM.
+  // Stop the producer first, then blank the peripheral before any delay.
+  DISABLE_STEPPER_DRIVER_INTERRUPT();
+  laser->BlankOutput_ISR();
+  laser->InlineDisable();
+}
+
 void kill(PGM_P const lcd_msg/*=NULL*/) {
+  blank_laser_before_kill();
   thermalManager.disable_all_heaters();
 
   SERIAL_ERROR_MSG(MSG_ERR_KILLED);
@@ -903,6 +913,7 @@ void kill(PGM_P const lcd_msg/*=NULL*/) {
 }
 
 void minkill() {
+  blank_laser_before_kill();
 
   // Wait a short time (allows messages to get out before shutting down.
   for (int i = 1000; i--;) DELAY_US(600);

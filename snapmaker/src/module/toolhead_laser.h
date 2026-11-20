@@ -325,6 +325,10 @@ class ToolHeadLaser: public ModuleBase {
     void SetOutputInline(uint16_t power_pwm, bool is_sync_power=true);
     void UpdateInlinePower(uint16_t power_pwm, float sync_power);
 
+    // ISR-safe: blank physical output without CAN, fan handling or changing
+    // the requested power needed by the next movement / manual focus command.
+    void BlankOutput_ISR();
+
     // Optimized TurnOn function for use from the Stepper ISR
     void TurnOn_ISR(uint16_t power_pwm, bool is_sync_power, float power);
 };
