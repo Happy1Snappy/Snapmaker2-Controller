@@ -3,9 +3,9 @@
 **Known safety defect in LA01:** during native-Marlin inline streaming, the
 laser can remain on after Pause/Stop when motion ends. Do not use LA01 for
 laser jobs. Experimental LA03 on `laser-inline-stop` includes the LA02 output correction; see
-[analysis, verification and limits](docs/custom/INLINE-STOP-LA02.md). It is not
-yet fully hardware-validated. The owner reports the LA02 laser-off correction
-working. LA03 additionally suspends/resumes Air Assist; see
+[analysis, verification and limits](docs/custom/INLINE-STOP-LA02.md). The owner
+reports successful LA03 tests with 1.6 W, 10 W, 40 W and 2 W IR, including
+Pause/Stop and the supported Air Assist functions. LA03 suspends/resumes Air Assist; see
 [behavior and test plan](docs/custom/AIR-ASSIST-LA03.md).
 
 Unofficial personal fork for Happy1Snappy's original A350 (five 8 mm lead-screw
@@ -15,9 +15,9 @@ Initial machine tests have been reported by the owner. This is not a Snapmaker r
 **Use native Marlin device profiles in LightBurn, rather than SnapMaker profiles.**
 With inline mode enabled, the owner reports that the profile's framing/focus-dot
 power must be increased for visible output. No universal power value has been
-established. The owner has also completed an initial 2 W IR test using a
-native Marlin profile. Extended testing is ongoing; individual functions
-have not all been separately documented.
+established. All four owned heads have been tested with native Marlin profiles.
+These are owner-reported results for the documented machine, not a general
+certification for other configurations. Air Assist is not enabled for 2 W IR.
 
 **The heated-bed connector is used for the original Air Assist pump. With a
 1.6 W or 10 W head, M7/M8 now energizes this connector. Do not connect a heated

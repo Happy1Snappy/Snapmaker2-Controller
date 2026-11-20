@@ -2,7 +2,10 @@
 
 Controller-Version `SM2-5.2.1-LA03`, Branch `laser-inline-stop`.
 Aufbauend auf LA02, dessen Laserabschaltung der Besitzer als funktionierend
-zurückgemeldet hat. Die neue Pumpenfunktion ist noch nicht am Gerät getestet.
+zurückgemeldet hat. Am 20.11.2026 hat der Besitzer auch LA03 mit allen vier
+Köpfen (1,6 W, 10 W, 40 W, 2 W IR) getestet und Pause, Stop sowie die
+vorgesehenen Air-Assist-Funktionen als in Ordnung bestätigt. Keine zusätzliche
+Pumpenfreigabe für 2 W IR. Die Bestätigung gilt für den dokumentierten Aufbau.
 
 ## Verhalten
 
@@ -40,7 +43,7 @@ Pumpe ist möglich. Beim Wiederanlauf ist keine zusätzliche Druckaufbauzeit
 vor dem Laserstart implementiert. Das muss beim Materialtest berücksichtigt
 werden. Die weiteren Grenzen von [LA02](INLINE-STOP-LA02.md) gelten weiterhin.
 
-## Prüfung und nächster Test
+## Prüfung und gemeldeter Hardwarestand
 
 Firmware-Build und Host-Regressionstests bestanden. Der Test führt die echten
 Getter, SetAirPumpSwitch, BlankOutput_ISR, TurnOn_ISR und Quick-Stop-Helfer
@@ -53,7 +56,10 @@ Zuerst einen Bewegungsjob mit Laserleistung null und Air Assist an testen:
 Pause, Auslaufen der Bewegungen, Pumpe aus, Fortsetzen, Pumpe an. Danach
 mit Air Assist aus wiederholen; die Pumpe muss aus bleiben. Zusätzlich M9
 während einer Pause und Stop getrennt prüfen. Keine Bearbeitungsleistung
-für diese Pumpentests erforderlich. Vollständige Hardwareabnahme ausstehend.
+für diese Pumpentests erforderlich. Dies bleibt der reproduzierbare Prüfplan;
+der Besitzer hat die Funktionen inzwischen als funktionierend bestätigt.
+Gesonderte Messungen der Reaktionszeiten und sämtlicher Fehlerfälle wurden
+nicht protokolliert.
 
 ## Build-Artefakt
 

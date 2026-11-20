@@ -5,8 +5,9 @@ Pause/Stop die letzte Laserleistung am stehenden Kopf erhalten bleiben.
 Gemeldet mit 10 W und LightBurn 2.2.1. LA01 nicht für Laserjobs verwenden.
 Experimenteller Korrekturstand auf `laser-inline-stop`: LA03 mit
 [LA02-Laserabschaltung](INLINE-STOP-LA02.md) und
-[Pumpenpause/Wiederanlauf](AIR-ASSIST-LA03.md). LA02-Laserabschaltung vom
-Besitzer als funktionierend gemeldet; LA03-Pumpenänderung noch nicht am Gerät geprüft.
+[Pumpenpause/Wiederanlauf](AIR-ASSIST-LA03.md). Der Besitzer bestätigt inzwischen
+LA03 mit allen vier Köpfen einschließlich Pause, Stop und der vorgesehenen
+Air-Assist-Funktionen als funktionierend.
 
 ## Basis und Status
 
@@ -34,12 +35,12 @@ bleibt abhängig vom Laserkopf und Profil. Nur so weit erhöhen, wie für die
 Sichtbarkeit erforderlich. Framing-Leistung und Kreuzlaser-Versatz bleiben
 auf Profilebene, nicht als feste Werte im Firmwarecode.
 
-Der Besitzer hat auch den **ersten Test des 2-W-IR-Kopfs mit einem nativen
-Marlin-Profil abgeschlossen**. Weitere intensive Tests folgen. Einzelne
-Funktionen wie Kreuzlaser-Framing, Pause und Abbruch wurden in dieser
-Rückmeldung nicht separat beschrieben und gelten deshalb noch nicht als
-einzeln dokumentiert abgenommen. Die allgemeine Rückmeldung ersetzt keine
-getrennte Abnahme aller Funktionen an jedem Kopf.
+Am 20.11.2026 hat der Besitzer Tests mit **1,6 W, 10 W, 40 W und 2 W IR**
+abgeschlossen und Pause, Stop sowie die vorgesehenen Air-Assist-Funktionen
+als in Ordnung gemeldet. Native Marlin-Profile und Inline-Steuerung bleiben
+der Arbeitsweg. Für den IR-Kopf wurde keine Pumpenfreigabe hinzugefügt.
+Diese Rückmeldung gilt für die dokumentierte Maschine; ein vollständiger
+Messbericht aller Reaktionszeiten und Fehlerfälle liegt nicht vor.
 
 Die SnapMaker-Profile starteten auch nach dem unten beschriebenen Wechsel
 der Touchscreen-Firmware keinen Stream. Die Ursache ist nicht abschließend
