@@ -1,5 +1,10 @@
 # Persönliche A350-Laser-Firmware
 
+**Sicherheitsfehler LA01:** Bei nativer Marlin-Inline-Steuerung kann nach
+Pause/Stop die letzte Laserleistung am stehenden Kopf erhalten bleiben.
+Gemeldet mit 10 W und LightBurn 2.2.1. LA01 bis zur Korrektur nicht für
+Laserjobs verwenden. Ein erfolgreicher Build ersetzt keinen Hardwaretest.
+
 ## Basis und Status
 
 - Basis: offizieller Tag `v5.2.1`, Commit
