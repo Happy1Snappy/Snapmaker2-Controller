@@ -134,6 +134,7 @@ class ToolHeadLaser: public ModuleBase {
       crosslight_offset_x = crosslight_offset_y = INVALID_OFFSET;
       half_power_mode_ = false;
       air_pump_switch_ = false;
+      air_pump_suspended_ = false;
       weak_light_origin_mode_ = false;
       xy_offset_application_ = XY_OFFSET_APPLICATION_FALG;
       weak_light_power_update_ = false;
@@ -169,7 +170,8 @@ class ToolHeadLaser: public ModuleBase {
     }
 
     bool SetAirPumpSwitch(bool onoff, bool output_log=true);
-    bool GetAirPumpSwitch(void) { return air_pump_switch_; }
+    bool GetAirPumpSwitch(void) { return air_pump_switch_; } // Requested layer state.
+    bool GetAirPumpOutput(void) { return air_pump_switch_ && !air_pump_suspended_; }
     bool GetHalfPowerMode(void) { return half_power_mode_; }
     bool SetWeakLightOriginMode(bool mode);
     bool GetWeakLightOriginMode(void) { return weak_light_origin_mode_; }
@@ -303,7 +305,8 @@ class ToolHeadLaser: public ModuleBase {
     bool cross_light_state_update_;
     bool cross_light_state_;
     bool half_power_mode_;
-    bool air_pump_switch_;
+    volatile bool air_pump_switch_;
+    volatile bool air_pump_suspended_;
     bool weak_light_origin_mode_;
     uint8_t xy_offset_application_;
     bool weak_light_power_update_;
@@ -324,6 +327,10 @@ class ToolHeadLaser: public ModuleBase {
     void SetOutputInline(float power);
     void SetOutputInline(uint16_t power_pwm, bool is_sync_power=true);
     void UpdateInlinePower(uint16_t power_pwm, float sync_power);
+
+    // ISR-safe: blank physical output without CAN, fan handling or changing
+    // the requested power needed by the next movement / manual focus command.
+    void BlankOutput_ISR();
 
     // Optimized TurnOn function for use from the Stepper ISR
     void TurnOn_ISR(uint16_t power_pwm, bool is_sync_power, float power);

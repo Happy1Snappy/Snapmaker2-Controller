@@ -2,14 +2,18 @@
 
 **Sicherheitsfehler LA01:** Bei nativer Marlin-Inline-Steuerung kann nach
 Pause/Stop die letzte Laserleistung am stehenden Kopf erhalten bleiben.
-Gemeldet mit 10 W und LightBurn 2.2.1. LA01 bis zur Korrektur nicht für
-Laserjobs verwenden. Ein erfolgreicher Build ersetzt keinen Hardwaretest.
+Gemeldet mit 10 W und LightBurn 2.2.1. LA01 nicht für Laserjobs verwenden.
+Experimenteller Korrekturstand auf `laser-inline-stop`: LA03 mit
+[LA02-Laserabschaltung](INLINE-STOP-LA02.md) und
+[Pumpenpause/Wiederanlauf](AIR-ASSIST-LA03.md). Der Besitzer bestätigt inzwischen
+LA03 mit allen vier Köpfen einschließlich Pause, Stop und der vorgesehenen
+Air-Assist-Funktionen als funktionierend.
 
 ## Basis und Status
 
 - Basis: offizieller Tag `v5.2.1`, Commit
   `314c167b0a1ce331d867b10abd32e00908e4aa9c`.
-- Experimentelle Controller-Version: `SM2-5.2.1-LA01`.
+- Experimentelle Controller-Version auf diesem Branch: `SM2-5.2.1-LA03`.
 - Touchscreen, Controller und Module haben eigene Firmwareversionen.
   Die Touchscreen-Version 2.4 ist nicht die Controller-Version 5.2.1.
 - Ziel: ursprünglicher A350 mit fünf 8-mm-Spindeln, Originalnetzteil,
@@ -31,12 +35,12 @@ bleibt abhängig vom Laserkopf und Profil. Nur so weit erhöhen, wie für die
 Sichtbarkeit erforderlich. Framing-Leistung und Kreuzlaser-Versatz bleiben
 auf Profilebene, nicht als feste Werte im Firmwarecode.
 
-Der Besitzer hat auch den **ersten Test des 2-W-IR-Kopfs mit einem nativen
-Marlin-Profil abgeschlossen**. Weitere intensive Tests folgen. Einzelne
-Funktionen wie Kreuzlaser-Framing, Pause und Abbruch wurden in dieser
-Rückmeldung nicht separat beschrieben und gelten deshalb noch nicht als
-einzeln dokumentiert abgenommen. Die allgemeine Rückmeldung ersetzt keine
-getrennte Abnahme aller Funktionen an jedem Kopf.
+Am 20.11.2026 hat der Besitzer Tests mit **1,6 W, 10 W, 40 W und 2 W IR**
+abgeschlossen und Pause, Stop sowie die vorgesehenen Air-Assist-Funktionen
+als in Ordnung gemeldet. Native Marlin-Profile und Inline-Steuerung bleiben
+der Arbeitsweg. Für den IR-Kopf wurde keine Pumpenfreigabe hinzugefügt.
+Diese Rückmeldung gilt für die dokumentierte Maschine; ein vollständiger
+Messbericht aller Reaktionszeiten und Fehlerfälle liegt nicht vor.
 
 Die SnapMaker-Profile starteten auch nach dem unten beschriebenen Wechsel
 der Touchscreen-Firmware keinen Stream. Die Ursache ist nicht abschließend
@@ -92,7 +96,7 @@ des Controller-Dateinamens dürfen nicht Teil der Versionsnummer werden.
    ```powershell
    git clone https://github.com/Happy1Snappy/Snapmaker2-Controller.git
    cd Snapmaker2-Controller
-   git switch laser-custom
+   git switch laser-inline-stop
    ```
 
 3. Den gesamten Repository-Ordner in VS Code öffnen. In einem PlatformIO-

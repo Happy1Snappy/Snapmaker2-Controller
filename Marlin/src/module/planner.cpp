@@ -1525,11 +1525,15 @@ void Planner::quick_stop() {
   // Make sure to drop any attempt of queuing moves for at least 1 second
   cleaning_buffer_counter = 1000;
 
+  // Blank output and request the active block's abort BEFORE reenabling its
+  // ISR. Otherwise it could emit the old block's inline power again.
+  laser->BlankOutput_ISR();
+  laser->InlineDisable();
+  laser->SetAirPumpSwitch(false, false); // Explicit stop cancels the request.
+  stepper.quick_stop();
+
   // Reenable Stepper ISR
   if (was_enabled) ENABLE_STEPPER_DRIVER_INTERRUPT();
-
-  // And stop the stepper ISR
-  stepper.quick_stop();
 }
 
 void Planner::endstop_triggered(const AxisEnum axis) {

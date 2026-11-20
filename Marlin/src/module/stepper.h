@@ -357,6 +357,7 @@ class Stepper {
     } stepper_laser_t;
 
     static stepper_laser_t laser_trap;
+    static void finish_inline_laser_block(const bool completed_inline);
 
   public:
 

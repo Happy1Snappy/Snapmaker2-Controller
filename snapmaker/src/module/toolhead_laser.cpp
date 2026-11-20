@@ -287,6 +287,7 @@ ErrCode ToolHeadLaser::Init(MAC_t &mac, uint8_t mac_index) {
   }
 
   air_pump_switch_ = false;  // Never inherit an earlier pump request on initialization.
+  air_pump_suspended_ = false;
   mac_index_ = mac_index;
   state_     = TOOLHEAD_LASER_STATE_OFF;
 
@@ -365,6 +366,8 @@ bool ToolHeadLaser::SetAirPumpSwitch(bool onoff, bool output_log) {
   if (output_log)
     LOG_I("set air pump switch: %s\n", onoff ? "open" : "close");
   air_pump_switch_ = !!onoff;
+  // Explicit M7/M8 or state restoration overrides a temporary motion pause.
+  air_pump_suspended_ = false;
   return air_pump_switch_;
 }
 
@@ -1773,7 +1776,18 @@ void ToolHeadLaser::UpdateInlinePower(uint16_t power_pwm, float sync_power) {
   planner.laser_inline.sync_power = sync_power;
 }
 
+void ToolHeadLaser::BlankOutput_ISR() {
+  if (state_ == TOOLHEAD_LASER_STATE_OFFLINE)
+    return;
+  TimSetPwm(0);
+  air_pump_suspended_ = true; // Preserve the requested layer state for resume.
+  state_ = TOOLHEAD_LASER_STATE_OFF;
+}
+
 void ToolHeadLaser::TurnOn_ISR(uint16_t power_pwm, bool is_sync_power, float power) {
+  // Resume the requested Air Assist with motion, including zero-power raster
+  // segments. A preceding M9 still keeps it off.
+  air_pump_suspended_ = false;
   if (power_pwm > power_limit_pwm_)
     power_pwm = power_limit_pwm_;
 
